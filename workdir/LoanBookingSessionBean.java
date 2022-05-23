@@ -1,37 +1,17 @@
-import java.util.Scanner;  
-import java.lang.Math;  
-import java.io.printer; 
-import java.io.collection; 
-import java.io.scanner;
-import java.io.outputprinter;
-import java.io.inputprinter;
-public class SpiralPatternExample2
-{  
-//function to print the spiral pattern  
-public static void printPattern(int n)  
-{  
-//detrmines the boundary size of the array  
-int size = 2 * n - 1;  
-//inner loop  
-for(int i = 1; i <= size; i++)  
-{  
-//outer loop      
-for(int j = 1; j <= size; j++)  
-{  
-//calculates and prints the values for pattern  
-System.out.print(Math.max(Math.abs(i - n), Math.abs(j - n)) + 1 + " ");  
-}  
-System.out.println();  
-}  
-}  
-//driver code  
-public static void main(String args[])  
-{  
-Scanner sc = new Scanner(System.in);  
-System.out.print("Enter the value of n: ");  
-int n = sc.nextInt();  
-System.out.println();  
-//function calling  
-printPattern(n);  
-}  
-}  
+- hosts: all
+  remote_user: ec2-user
+  become: yes
+  tasks:
+  - name: Install the latest version of Apache
+    yum:
+      name: httpd
+      state: latest
+  - name: Start service httpd, if not stop
+    service:
+      name: httpd
+      state: started
+  - name: Copy file with owner 
+    copy:
+      src: /home/ec2-user/index.html
+      dest: /var/www/html/index.html
+      mode: '777'
